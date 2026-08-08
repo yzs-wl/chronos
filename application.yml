@@ -1,0 +1,49 @@
+server:
+  port: 8080
+  compression:
+    enabled: true
+
+spring:
+  application:
+    name: chronos
+  datasource:
+    # 使用绝对路径，避免不同工作目录启动时连到不同数据库文件导致数据"丢失"
+    url: jdbc:h2:file:./data/chronos;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: ""
+  jpa:
+    hibernate:
+      # 文件存储：表结构随实体演进更新，数据持久化到 ./data/chronos.mv.db，重启不丢失
+      ddl-auto: update
+    show-sql: false
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: false
+        dialect: org.hibernate.dialect.H2Dialect
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+chronos:
+  brand:
+    name: Chronos
+    cn-name: 时策
+    slogan: Master Time, Master Trade.
+  backtest:
+    default-initial-cash: 1000000
+    default-commission-rate: 0.0003
+    default-stamp-tax-rate: 0.0005
+    default-slippage: 0.001
+    default-min-commission: 5.0
+  risk:
+    max-position-pct: 0.2
+    max-drawdown: 0.2
+    max-concentration: 0.3
+  live:
+    tick-ms: 2000
+  data:
+    seed-symbols: "600000.SH,600519.SH,000001.SZ,000858.SZ,300750.SZ"
+    seed-days: 250
